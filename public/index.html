@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Systisen — Catálogo</title>
+  <link rel="stylesheet" href="/css/customer.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <h1 id="restauranteName">Cargando...</h1>
+        <p id="restauranteSlogan"></p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Category tabs -->
+  <nav class="category-nav" id="categoryNav" role="tablist">
+    <!-- Injected by JS -->
+  </nav>
+
+  <!-- Main content: menu + cart -->
+  <main class="layout">
+
+    <!-- Menu section -->
+    <section class="menu-section">
+      <div class="menu-grid" id="menuGrid">
+        <!-- Injected by JS -->
+      </div>
+    </section>
+
+    <!-- Floating cart -->
+    <aside class="cart-panel" id="cartPanel">
+      <div class="cart-header">
+        <h2>Tu pedido</h2>
+        <span class="cart-count badge" id="cartCount">0</span>
+      </div>
+
+      <div class="cart-empty" id="cartEmpty">
+        <span class="cart-empty-icon">🛒</span>
+        <p>Elegí los productos que necesitás</p>
+      </div>
+
+      <ul class="cart-list" id="cartList"></ul>
+
+      <div class="cart-footer" id="cartFooter" style="display:none">
+        <div class="cart-notes">
+          <label for="notasInput">Notas / aclaraciones</label>
+          <textarea id="notasInput" placeholder="Ej: sin cebolla, alérgico al maní..." rows="2"></textarea>
+        </div>
+        <div class="cart-total">
+          <span>Total</span>
+          <strong id="cartTotal">$0</strong>
+        </div>
+        <button class="btn-confirm" id="btnConfirm" onclick="openConfirmModal()">
+          Confirmar pedido →
+        </button>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Cart FAB (mobile) -->
+  <button class="cart-fab" id="cartFab" onclick="toggleCartMobile()" style="display:none">
+    🛒 <span id="fabCount">0</span> ítems · <strong id="fabTotal">$0</strong>
+  </button>
+
+  <!-- Confirm modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeConfirmModal()"></div>
+  <div class="modal" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h2 id="modalTitle">Confirmar pedido</h2>
+    <div class="cliente-fields">
+      <label for="nombreInput">Tu nombre</label>
+      <input type="text" id="nombreInput" placeholder="Ej: Juan Pérez" />
+      <label for="telefonoInput">Tu teléfono</label>
+      <input type="tel" id="telefonoInput" placeholder="Ej: 0991234567" />
+    </div>
+    <ul class="modal-items" id="modalItems"></ul>
+    <div class="modal-total">
+      Total: <strong id="modalTotal">$0</strong>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeConfirmModal()">Volver</button>
+      <button class="btn-primary" id="btnSendOrder" onclick="sendOrder()">Enviar pedido</button>
+    </div>
+  </div>
+
+  <!-- Success overlay -->
+  <div class="success-overlay" id="successOverlay" style="display:none">
+    <div class="success-box">
+      <div class="success-icon">✅</div>
+      <h2>¡Pedido listo!</h2>
+      <p>Tocá el botón para enviarlo por WhatsApp al proveedor.</p>
+      <p class="success-order-id" id="successOrderId"></p>
+      <a class="btn-pay" id="btnWhatsapp" href="#" target="_blank" rel="noopener">Enviar por WhatsApp →</a>
+    </div>
+  </div>
+
+  <script src="/js/customer.js" type="module"></script>
+</body>
+</html>
