@@ -77,10 +77,13 @@ function buildCard(item) {
     <div class="item-footer">
       <span class="item-price">${sinPrecio ? 'Consultar precio' : formatPrice(item.precio)}</span>
       <div class="item-controls">
-        ${sinPrecio ? '' : qty > 0 ? `
-          <button class="btn-qty btn-minus" onclick="changeQty('${item.id}', -1)" aria-label="Quitar uno">−</button>
-          <span class="qty-display">${qty}</span>
-        ` : `<button class="btn-qty btn-add" onclick="changeQty('${item.id}', 1)" aria-label="Agregar">+</button>`}
+        ${sinPrecio ? '' : `
+          ${qty > 0 ? `
+            <button class="btn-qty btn-minus" onclick="changeQty('${item.id}', -1)" aria-label="Quitar uno">−</button>
+            <span class="qty-display">${qty}</span>
+          ` : ''}
+          <button class="btn-qty btn-add" onclick="changeQty('${item.id}', 1)" aria-label="Agregar">+</button>
+        `}
       </div>
     </div>
     ${item.disponible === false && !sinPrecio ? '<span class="unavailable-tag">No disponible</span>' : ''}
@@ -229,7 +232,17 @@ window.sendOrder = async function () {
   }
 };
 
+window.closeSuccessOverlay = function () {
+  document.getElementById('successOverlay').style.display = 'none';
+};
+
 function showSuccess(orderId, total, whatsappUrl) {
+  const btn = document.getElementById('btnSendOrder');
+  btn.disabled = false;
+  btn.textContent = 'Enviar pedido';
+  document.getElementById('nombreInput').value = '';
+  document.getElementById('telefonoInput').value = '';
+  document.getElementById('notasInput').value = '';
   document.getElementById('successOrderId').textContent = `Pedido: ${orderId}`;
   const btnWhatsapp = document.getElementById('btnWhatsapp');
   if (whatsappUrl) {
