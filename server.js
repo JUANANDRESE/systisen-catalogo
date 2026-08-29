@@ -5,6 +5,7 @@ import { dirname, join } from 'path';
 import { getCatalog, findProductInCatalog } from './integrations/sheetsCatalog.js';
 import { buildOrderWhatsAppLink } from './integrations/whatsapp.js';
 import { sendOrderEmail } from './integrations/email.js';
+import { ensurePedidosHeadersExist, appendOrderToSheet } from './integrations/sheetsOrders.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -72,6 +73,7 @@ app.post('/api/pedido', async (req, res) => {
   }
 
   sendOrderEmail(order).catch((err) => console.error('[email] Error enviando pedido:', err.message));
+  appendOrderToSheet(order).catch((err) => console.error('[pedidos] Error guardando en Sheets:', err.message));
 
   res.status(201).json({ orderId: order.id, total, whatsappUrl });
 });
@@ -84,6 +86,8 @@ app.get('/api/pedido/:id', (req, res) => {
 
 // ─── Start ───────────────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
+
+await ensurePedidosHeadersExist();
 
 app.listen(PORT, () => {
   console.log(`\n✅ Servidor corriendo en http://localhost:${PORT}`);

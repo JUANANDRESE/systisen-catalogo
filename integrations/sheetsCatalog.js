@@ -11,14 +11,15 @@ const CACHE_TTL_MS = 60_000;
 let cache = null;
 let cacheAt = 0;
 
-function getAuth() {
+export function getAuth() {
   const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
   const key = process.env.GOOGLE_PRIVATE_KEY;
   if (!email || !key) {
     throw new Error('Faltan GOOGLE_SERVICE_ACCOUNT_EMAIL o GOOGLE_PRIVATE_KEY en .env');
   }
+  // Alcance de lectura/escritura: se necesita escritura para registrar pedidos (ver sheetsOrders.js)
   return new google.auth.JWT(email, undefined, key.replace(/\\n/g, '\n'), [
-    'https://www.googleapis.com/auth/spreadsheets.readonly',
+    'https://www.googleapis.com/auth/spreadsheets',
   ]);
 }
 

@@ -53,4 +53,9 @@ catálogo pasa a leer de Sheets automáticamente.
 
 `POST /api/pedido` recibe `{ nombreCliente, telefonoCliente, items: [{id, qty}], notas }`, valida contra el catálogo real, y devuelve `{ orderId, total, whatsappUrl }`. El frontend abre `whatsappUrl` para que el cliente lo envíe.
 
+Además de WhatsApp/email, cada pedido se registra como fila nueva en la pestaña **Pedidos**
+del mismo Google Sheet (`integrations/sheetsOrders.js`) — se crea automáticamente con sus
+encabezados la primera vez que arranca el servidor. Requiere que la cuenta de servicio tenga
+permiso de **Editor** (no solo Lector) sobre la hoja, porque necesita escribir.
+
 Si más adelante el proveedor obtiene acceso a la API de WhatsApp Business de Meta, se puede reemplazar el link `wa.me` por un envío automático (ver `src/integrations/metaWhatsapp.ts` en el proyecto `bot autoexonerado` como referencia de ese patrón).
